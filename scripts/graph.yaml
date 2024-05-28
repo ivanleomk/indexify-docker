@@ -1,0 +1,7 @@
+name: "chunk"
+extraction_policies:
+  - extractor: "tensorlake/chunk-extractor"
+    name: "chunker"
+    input_params:
+      chunk_size: 1000
+      overlap: 100

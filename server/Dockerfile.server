@@ -1,0 +1,19 @@
+FROM ubuntu:22.04
+
+RUN apt update
+
+RUN apt install -y lsb-release ca-certificates apt-transport-https
+
+RUN update-ca-certificates
+
+RUN echo "deb [trusted=yes] https://cf-repo.diptanu-6d5.workers.dev/repo $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/indexify-repo.list && \
+    apt-get update -y && \
+    apt-get install -y indexify && \
+    apt-get -y clean
+
+WORKDIR /indexify
+
+COPY indexify.yaml /indexify/indexify.yaml
+
+
+ENTRYPOINT ["indexify", "server", "-d", "--config-path", "./indexify.yaml"]

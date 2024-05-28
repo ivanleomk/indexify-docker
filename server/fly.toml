@@ -1,0 +1,28 @@
+app = 'indexify-server'
+primary_region = 'hkg'
+
+[build]
+dockerfile = 'Dockerfile.server'
+
+[env]
+INDEXIFY_COORDINATOR_ADDR = 'localhost:8950'
+
+
+[[services]]
+protocol = 'tcp'
+internal_port = 8900
+processes = ['app']
+[[services.ports]]
+port = 8900
+
+[[services]]
+protocol = 'tcp'
+internal_port = 8950
+processes = ['app']
+[[services.ports]]
+port = 8950
+
+[[vm]]
+memory = '4gb'
+cpu_kind = 'shared'
+cpus = 2

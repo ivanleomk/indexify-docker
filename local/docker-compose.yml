@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  indexify-server:
+    build:
+      context: ../server
+      dockerfile: Dockerfile.server
+    env_file:
+      - ../.env
+    ports:
+      - "8900:8900"
+      - "8950:8950"
+    container_name: indexify-container
+    # volumes:
+    #   - shared-tmp:/tmp
+
+  indexify-chunk-extractor:
+    environment:
+      COORDINATOR_ADDR: "indexify-server:8950"
+      INGESTION_ADDR: "indexify-server:8900"
+      LISTEN_PORT: "8000"
+      ADVERTISE_ADDR: "indexify-chunk-extractor:8000"
+      WORKERS: "1"
+    env_file:
+      - ../.env
+    build:
+      context: ../extractor
+      dockerfile: Dockerfile.extractor
+    container_name: indexify-chunk-extractor
+#     volumes:
+#       - shared-tmp:/tmp
+
+# volumes:
+#   shared-tmp:
+#     driver: local

@@ -1,0 +1,30 @@
+# fly.toml app configuration file generated for indexify-chunk-extractor on 2024-05-28T17:20:38+08:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'indexify-chunk-extractor'
+primary_region = 'hkg'
+
+[build]
+dockerfile = 'Dockerfile.extractor'
+
+[env]
+ADVERTISE_ADDR = '137.66.36.144'      # This is the reserved IP for the chunk extractor
+COORDINATOR_ADDR = '37.16.28.13:8950' # This is the reserved IP for the indexify-server
+INGESTION_ADDR = '37.16.28.13:8900'   # This is the reserved IP for the indexify-server
+LISTEN_PORT = '8000'
+WORKERS = '1'
+
+[[services]]
+protocol = 'tcp'
+internal_port = 8000
+processes = ['app']
+
+[[services.ports]]
+port = 8000
+
+[[vm]]
+memory = '1gb'
+cpu_kind = 'shared'
+cpus = 1

@@ -1,0 +1,5 @@
+FROM tensorlake/chunk-extractor
+
+WORKDIR /indexify
+
+ENTRYPOINT ["sh", "-c", "indexify-extractor join-server --coordinator-addr $COORDINATOR_ADDR --ingestion-addr $INGESTION_ADDR --listen-port $LISTEN_PORT --advertise-addr $ADVERTISE_ADDR --workers $WORKERS"]
